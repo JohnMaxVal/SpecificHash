@@ -33,7 +33,11 @@ public:
     }
 
     void remove(const string& value) {
-        bool found = search(value);
+        int index;
+        bool found = search(value, &index);
+
+        if(found)
+            m_entries[index].status = "tombstone";
     }
 
     void print() {
@@ -43,13 +47,16 @@ public:
 
 private:
 
-    bool search(const string value) {
+    bool search(const string value, int* outIndex = nullptr) {
         int index = getTableIndex(value);
         
         for(;;) {
 
-            if(m_entries[index].data == value)
+            if(m_entries[index].data == value) {
+                if(outIndex)
+                    *outIndex = index;
                 return true;
+            }
 
             if(m_entries[index].status == "never used")
                 return false;
@@ -75,7 +82,7 @@ private:
 
 };
 
-// input: Aapple Aorange Dapple Astrawberry
+// input: Aapple Aorange Dapple Agrape Astrawberry
 // output: orange strawberry
 
 int main() {
@@ -90,8 +97,6 @@ int main() {
     string token;
     
     while(ss >> token) {
-
-        cout << "token: " << token << endl;
 
         if(token[0] == 'A')
             table.insert(&token[1]);
