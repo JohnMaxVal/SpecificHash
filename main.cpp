@@ -41,8 +41,11 @@ public:
     }
 
     void print() {
-        for(int i = 0; i < size; ++i)
-            cout << m_entries[i].data << " " << "(" << m_entries[i].status << ")" << endl;
+        for(int i = 0; i < size; ++i) {
+            if(m_entries[i].data != "" && m_entries[i].status == "occupied")
+                cout << m_entries[i].data << " ";
+        }
+        cout << endl;
     }
 
 private:
@@ -82,7 +85,7 @@ private:
 
 };
 
-// input: Aapple Aorange Dapple Agrape Astrawberry
+// input: Aapple Aorange Dapple Astrawberry
 // output: orange strawberry
 
 int main() {
